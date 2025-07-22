@@ -1,98 +1,126 @@
-// src/pages/AdminContactos.tsx
-import React, { useEffect, useState } from 'react';
-import API from '../api';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  CircularProgress,
+  Card,
+  CardContent,
+  TextField,
+  IconButton,
+  Grid,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import API from '../api';
 
+// ✅ Tipado correcto según tu entidad en PostgreSQL
 interface Contact {
   id: number;
-  name: string;
-  email: string;
-  phone?: string;
-  message: string;
-  createdAt: string;
+  nombre: string;
+  correo: string;
+  mensaje: string;
+  telefono: string;
+  fecha: string;
+  comentario?: string;
 }
 
 const AdminContactos = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [contactos, setContactos] = useState<Contact[]>([]);
+  const [comentarios, setComentarios] = useState<{ [key: number]: string }>({});
+  const [modoEdicion, setModoEdicion] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const res = await API.get('/contacts');
-        setContacts(res.data);
-      } catch (err) {
-        console.error('Error al obtener mensajes', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchContacts();
+    API.get('/contacts')
+      .then((res) => setContactos(res.data))
+      .catch((err) => console.error('Error al cargar contactos', err));
   }, []);
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  const handleEliminar = (id: number) => {
+    API.delete(`/contacts/${id}`)
+      .then(() => {
+        setContactos((prev) => prev.filter((c) => c.id !== id));
+      })
+      .catch((err) => console.error('Error al eliminar contacto', err));
+  };
+
+  const handleGuardarComentario = (id: number) => {
+    const nuevoComentario = comentarios[id];
+    API.put(`/contacts/${id}`, { comentario: nuevoComentario })
+      .then(() => {
+        setModoEdicion((prev) => ({ ...prev, [id]: false }));
+        setContactos((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, comentario: nuevoComentario } : c))
+        );
+      })
+      .catch((err) => console.error('Error al guardar comentario', err));
+  };
 
   return (
-    <Box sx={{ maxWidth: 900, mx: 'auto', mt: 5, px: 2 }}>
-      <Typography variant="h4" gutterBottom align="center" color="primary">
+    <Box sx={{ p: 4, bgcolor: '#f0f0f0', minHeight: '100vh' }}>
+      <Typography variant="h4" align="center" color="primary" gutterBottom>
         Mensajes Recibidos de Contacto
       </Typography>
+      <Grid container spacing={2}>
+        {contactos.map((contacto) => (
+          <Grid item xs={12} md={6} key={contacto.id}>
+            <Card sx={{ bgcolor: '#fff', color: '#000' }}>
+              <CardContent>
+                <Typography variant="subtitle1">
+                  <strong>{contacto.nombre}</strong> &lt;{contacto.correo}&gt;
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  {contacto.mensaje}
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  📞 Teléfono: {contacto.telefono}
+                </Typography>
+                <Typography variant="caption">
+                  🕒 Recibido: {new Date(contacto.fecha).toLocaleString()}
+                </Typography>
 
-      <Paper elevation={4} sx={{ bgcolor: '#ffffff', color: '#000', p: 2 }}>
-        <List>
-          {contacts.length === 0 ? (
-            <Typography align="center" sx={{ p: 2 }}>
-              No hay mensajes por el momento.
-            </Typography>
-          ) : (
-            contacts.map((contact) => (
-              <React.Fragment key={contact.id}>
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary={
-                      <Typography variant="subtitle1" fontWeight="bold">
-                        {contact.name} &lt;{contact.email}&gt;
+                <Box mt={2}>
+                  {modoEdicion[contacto.id] ? (
+                    <Box display="flex" gap={1}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Comentario"
+                        value={comentarios[contacto.id] || ''}
+                        onChange={(e) =>
+                          setComentarios({ ...comentarios, [contacto.id]: e.target.value })
+                        }
+                      />
+                      <IconButton
+                        onClick={() => handleGuardarComentario(contacto.id)}
+                        color="primary"
+                      >
+                        <SaveIcon />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2">
+                        📝 Comentario: {contacto.comentario || 'Sin comentario'}
                       </Typography>
-                    }
-                    secondary={
-                      <>
-                        <Typography variant="body2" color="text.primary">
-                          {contact.message}
-                        </Typography>
-                        {contact.phone && (
-                          <Typography variant="body2" sx={{ mt: 1 }}>
-                            📞 Teléfono: {contact.phone}
-                          </Typography>
-                        )}
-                        <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                          🕓 Recibido: {new Date(contact.createdAt).toLocaleString()}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            ))
-          )}
-        </List>
-      </Paper>
+                      <IconButton
+                        onClick={() => setModoEdicion({ ...modoEdicion, [contacto.id]: true })}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Box>
+                  )}
+                </Box>
+
+                <Box mt={1} textAlign="right">
+                  <IconButton onClick={() => handleEliminar(contacto.id)} color="error">
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

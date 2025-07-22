@@ -1,7 +1,7 @@
 // src/pages/CreateAdmin.tsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API from '../api'; // ✅ Importamos instancia axios con baseURL
 
 const CreateAdmin = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const CreateAdmin = () => {
     telefono: '',
     username: '',
     address: '',
-    claveAdmin: '', // ✅
+    claveAdmin: '', // ✅ Campo requerido
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,9 +23,9 @@ const CreateAdmin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
+      await API.post('/auth/register', {
         ...form,
-        role: 'admin', // ✅ rol admin
+        role: 'admin',
       });
       alert('Administrador creado exitosamente');
       navigate('/admin');
@@ -45,10 +45,8 @@ const CreateAdmin = () => {
         <input type="text" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} required />
         <input type="text" name="username" placeholder="Nombre de usuario" value={form.username} onChange={handleChange} required />
         <input type="text" name="address" placeholder="Dirección" value={form.address} onChange={handleChange} required />
-
-        {/* ✅ Campo secreto claveAdmin */}
         <input type="password" name="claveAdmin" placeholder="Clave secreta para admins" value={form.claveAdmin} onChange={handleChange} required />
-
+        
         <button type="submit" style={{ padding: '0.7rem', background: '#2d4f46', color: 'white', border: 'none', borderRadius: '5px' }}>
           Crear Administrador
         </button>

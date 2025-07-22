@@ -1,11 +1,14 @@
 // src/pages/NewProject.tsx
 
+// src/pages/NewProject.tsx
+
 import React, { useState } from 'react';
 import {
   Container, TextField, Button, Typography, Box, Grid, Snackbar, Alert
 } from '@mui/material';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API from '../api'; // ✅ esta línea es la clave
+
 
 const NewProject = () => {
   const navigate = useNavigate();
@@ -50,7 +53,7 @@ const NewProject = () => {
     }
 
     try {
-      await axios.post('http://localhost:3000/projects', form);
+      await API.post('/projects', form);
       setOpenSnackbar(true);
       setTimeout(() => navigate('/projects'), 2000);
     } catch (err) {

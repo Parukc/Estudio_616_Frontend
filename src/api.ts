@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://estudio-616-backend.onrender.com', // ✅ corregido
-  withCredentials: true,
+  baseURL: 'https://estudio-616-backend.onrender.com', // ✅ Backend correcto
 });
 
 API.interceptors.request.use((config) => {

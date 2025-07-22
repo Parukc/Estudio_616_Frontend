@@ -1,7 +1,7 @@
 // src/pages/UploadGallery.tsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Box, Button, Typography, TextField } from '@mui/material';
+import API from '../api'; // ✅ Usa instancia configurada
 
 const UploadGallery = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -15,7 +15,7 @@ const UploadGallery = () => {
     formData.append('projectId', projectId);
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/gallery`, formData, {
+      await API.post('/gallery', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Imagen cargada con éxito');

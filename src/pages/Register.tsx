@@ -1,6 +1,7 @@
+// src/pages/Register.tsx
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API from '../api'; // ✅ Importa la instancia de axios
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -23,10 +24,10 @@ const RegisterPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
-      ...form,
-      role: 'user',
-    });
+      await API.post('/auth/register', {
+        ...form,
+        role: 'user', // ✅ rol explícito
+      });
       alert('Usuario registrado correctamente');
       navigate('/login');
     } catch (error) {
@@ -37,17 +38,10 @@ const RegisterPage = () => {
 
   return (
     <div style={{ fontFamily: 'sans-serif' }}>
-      {/* Encabezado */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '2rem',
-        background: 'white',
-        color: '#0c0c0c'
-      }}>
-        <h1 style={{ fontWeight: 'bold' }}>REGÍSTRATE COMO USUARIO</h1>
-        <p>Si ya cuentas con usuario y contraseña - inicia sesión</p>
+      {/* 🟦 Encabezado blanco */}
+      <div style={{ background: '#ffffff', color: '#000', padding: '2rem', textAlign: 'center' }}>
+        <h2 style={{ fontWeight: 'bold' }}>REGÍSTRATE COMO USUARIO</h2>
+        <p>Si ya tienes cuenta, inicia sesión aquí:</p>
         <button
           onClick={() => navigate('/login')}
           style={{
@@ -57,103 +51,32 @@ const RegisterPage = () => {
             color: 'white',
             borderRadius: '5px',
             cursor: 'pointer',
-            marginTop: '1rem'
+            marginTop: '1rem',
           }}
         >
           Iniciar Sesión
         </button>
       </div>
 
-      {/* Formulario */}
+      {/* 🟩 Formulario */}
       <section style={{ backgroundColor: '#5e7f73', padding: '3rem 1rem' }}>
         <div style={{ maxWidth: '500px', margin: 'auto', color: 'white' }}>
-          <h2>Formulario de Registro</h2>
+          <h3>Formulario de Registro</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div>
-              <label>Correo Electrónico</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="correo@ejemplo.com"
-                value={form.email}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
-
-            <div>
-              <label>Contraseña</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Ingrese su contraseña"
-                value={form.password}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
-
-            <div>
-              <label>Nombres</label>
-              <input
-                type="text"
-                name="nombres"
-                placeholder="Ej: Carlos Alberto"
-                value={form.nombres}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
-
-            <div>
-              <label>Teléfono</label>
-              <input
-                type="text"
-                name="telefono"
-                placeholder="0999999999"
-                value={form.telefono}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
-
-            <div>
-              <label>Nombre de Usuario</label>
-              <input
-                type="text"
-                name="username"
-                placeholder="usuario123"
-                value={form.username}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
-
-            <div>
-              <label>Dirección</label>
-              <input
-                type="text"
-                name="address"
-                placeholder="Av. Siempre Viva 742"
-                value={form.address}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
+            <input type="email" name="email" placeholder="Correo electrónico" value={form.email} onChange={handleChange} required />
+            <input type="password" name="password" placeholder="Contraseña" value={form.password} onChange={handleChange} required />
+            <input type="text" name="nombres" placeholder="Nombres" value={form.nombres} onChange={handleChange} required />
+            <input type="text" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} required />
+            <input type="text" name="username" placeholder="Nombre de usuario" value={form.username} onChange={handleChange} required />
+            <input type="text" name="address" placeholder="Dirección" value={form.address} onChange={handleChange} required />
 
             <button
               type="submit"
               style={{
                 padding: '0.6rem',
-                background: 'transparent',
+                background: '#1c4532',
                 color: 'white',
-                border: '1px solid white',
+                border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
@@ -164,14 +87,14 @@ const RegisterPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* 🟫 Footer */}
       <footer style={{ background: '#23312f', padding: '2rem', color: 'white' }}>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div style={{ background: '#58756d', width: '60px', height: '60px', borderRadius: '50%' }}></div>
           <div>
             <strong>Equipo de Atención al Cliente</strong>
-            <p style={{ fontSize: '0.8rem', marginTop: '0.2rem' }}>Listo para Ayudarte</p>
-            <p>Nuestro equipo está disponible para responder a todas tus preguntas.</p>
+            <p style={{ fontSize: '0.8rem', marginTop: '0.2rem' }}>Listo para ayudarte</p>
+            <p>Estamos disponibles para responder tus inquietudes.</p>
           </div>
           <button style={{
             background: '#58756d',

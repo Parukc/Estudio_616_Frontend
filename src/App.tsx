@@ -16,7 +16,9 @@ import UserDashboard from './pages/UserDashboard';
 import CreateAdmin from './pages/CreateAdmin';
 import AdminUsuarios from './pages/AdminUsuarios';
 import AdminProyectos from './pages/AdminProyectos';
-import EditarProyecto from './pages/EditarProyecto'; // ✅ IMPORTACIÓN NUEVA
+import EditarProyecto from './pages/EditarProyecto';
+import SolicitarInformacion from './pages/Ordenar';
+import AdminSolicitudes from './pages/AdminSolicitudes'; // ✅ NUEVO
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/solicitar" element={<SolicitarInformacion />} /> {/* ✅ NUEVA ruta pública */}
 
         {/* Panel de usuario protegido */}
         <Route
@@ -105,6 +108,14 @@ function App() {
           element={
             <AdminRoute>
               <EditarProyecto />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/solicitudes"
+          element={
+            <AdminRoute>
+              <AdminSolicitudes />
             </AdminRoute>
           }
         />

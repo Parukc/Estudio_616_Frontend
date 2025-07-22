@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -26,6 +25,9 @@ const Navbar = () => {
           <Button color="inherit" component={Link} to="/contact">
             Contacto
           </Button>
+          <Button color="inherit" component={Link} to="/solicitar">
+            Solicitar Información
+          </Button>
 
           {/* Botones visibles solo para admin */}
           {user?.role === 'admin' && (
@@ -44,6 +46,9 @@ const Navbar = () => {
               </Button>
               <Button color="inherit" component={Link} to="/admin/proyectos">
                 Admin Proyectos
+              </Button>
+              <Button color="inherit" component={Link} to="/admin/solicitudes">
+                Admin Solicitudes
               </Button>
             </>
           )}

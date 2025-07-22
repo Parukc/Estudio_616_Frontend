@@ -18,7 +18,7 @@ const Gallery = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#f0f0f0', minHeight: '100vh', p: 5 }}>
+    <Box sx={{ bgcolor: '#f0f0f0', minHeight: '100vh', p: 5, color: '#000000' }}>
       <Typography variant="h4" align="center" gutterBottom>
         Galería
       </Typography>

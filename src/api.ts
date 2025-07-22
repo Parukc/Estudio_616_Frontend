@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://estudio616-api.onrender.com', // ✅ URL del backend en Render
-  withCredentials: true, // ✅ Muy importante para que se envíe la cookie o token con CORS
+  baseURL: 'https://estudio-616-backend.onrender.com', // ✅ corregido
+  withCredentials: true,
 });
 
 API.interceptors.request.use((config) => {

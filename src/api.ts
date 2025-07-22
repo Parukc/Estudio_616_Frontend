@@ -8,9 +8,7 @@ API.interceptors.request.use((config) => {
   const user = localStorage.getItem('user');
   if (user) {
     const token = JSON.parse(user).token;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });

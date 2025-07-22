@@ -21,29 +21,28 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
-    try {
-      // ✅ Corregido: usar "username" en vez de "email" como espera el backend
-      const response = await API.post('/auth/login', {
-        username: form.email,
-        password: form.password,
-      });
+  try {
+    const response = await API.post('/auth/login', {
+      email: form.email,
+      password: form.password,
+    });
 
-      const { token, role, id, username } = response.data;
+    const { token, role, id, username } = response.data;
 
-      // Guardar datos en contexto y localStorage
-      login({ id, username: username || form.email, role, token });
+    // Guardar datos en contexto y localStorage
+    login({ id, username: username || form.email, role, token });
 
-      // Redirección según el rol
-      if (role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/user');
-      }
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      alert('Credenciales inválidas o error al iniciar sesión');
+    // Redirección según el rol
+    if (role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/user');
     }
-  };
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+    alert('Credenciales inválidas o error al iniciar sesión');
+  }
+};
 
   return (
     <Box>

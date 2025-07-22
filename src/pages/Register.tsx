@@ -11,7 +11,9 @@ const RegisterPage = () => {
     nombres: '',
     telefono: '',
     username: '',
-    address: '', // ✅ campo agregado
+    address: '',
+    role: 'admin',         // 👈 se registra como admin
+    claveAdmin: '',        // 👈 clave para validar admin
   });
 
   const handleChange = (
@@ -23,8 +25,8 @@ const RegisterPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/auth/register', {
-      ...form
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
+        ...form
       });
       alert('Administrador registrado correctamente');
       navigate('/login');
@@ -140,6 +142,19 @@ const RegisterPage = () => {
                 name="address"
                 placeholder="Av. 10 de Agosto y Colón"
                 value={form.address}
+                onChange={handleChange}
+                required
+                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
+              />
+            </div>
+
+            <div>
+              <label>Clave de Administrador</label>
+              <input
+                type="password"
+                name="claveAdmin"
+                placeholder="admin123"
+                value={form.claveAdmin}
                 onChange={handleChange}
                 required
                 style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}

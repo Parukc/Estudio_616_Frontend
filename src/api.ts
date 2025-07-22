@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'https://estudio-616-backend.onrender.com', 
 });
 
 API.interceptors.request.use((config) => {

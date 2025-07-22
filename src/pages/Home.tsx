@@ -70,14 +70,18 @@ const Home = () => {
           {[project1, project2].map((project, index) => (
             <Grid item xs={12} md={6} key={index}>
               <Card sx={{ height: 350 }}>
-                {project?.image && (
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={project.image}
-                    alt={project.title}
-                  />
-                )}
+                <CardMedia
+                  component="img"
+                  height="180"
+                  image={
+                    project?.image && project.image !== ''
+                      ? project.image
+                      : project?.projectId === 1
+                        ? 'https://architectureboard.wordpress.com/wp-content/uploads/2017/09/9676769931_9c4894b57e_k.jpg'
+                        : 'https://architectureboard.wordpress.com/wp-content/uploads/2017/09/9676769931_9c4894b57e_k.jpg'
+                  }
+                  alt={project?.title || `Proyecto ${index + 1}`}
+                />
                 <CardContent>
                   <Typography variant="h6">{project?.title || `Proyecto ${index + 1}`}</Typography>
                   <Typography>{project?.description || 'Coloca el contenido aquí'}</Typography>

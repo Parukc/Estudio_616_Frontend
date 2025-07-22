@@ -14,14 +14,15 @@ import AdminDashboard from './pages/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
 import UserDashboard from './pages/UserDashboard';
 import CreateAdmin from './pages/CreateAdmin';
-import AdminUsuarios from './pages/AdminUsuarios'; // 👈 ¡Nueva importación!
+import AdminUsuarios from './pages/AdminUsuarios';
+import AdminProyectos from './pages/AdminProyectos'; // ✅ NUEVA importación
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        {/* Públicas */}
+        {/* Rutas públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/gallery" element={<Gallery />} />
@@ -29,7 +30,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Dashboard de usuario (protegido con cualquier token) */}
+        {/* Panel de usuario protegido */}
         <Route
           path="/user"
           element={
@@ -39,7 +40,7 @@ function App() {
           }
         />
 
-        {/* Panel de administrador */}
+        {/* Panel de administrador protegido */}
         <Route
           path="/admin"
           element={
@@ -49,7 +50,7 @@ function App() {
           }
         />
 
-        {/* Rutas solo para administrador */}
+        {/* Rutas exclusivas para administrador */}
         <Route
           path="/crear-proyecto"
           element={
@@ -87,6 +88,14 @@ function App() {
           element={
             <AdminRoute>
               <AdminUsuarios />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/proyectos"
+          element={
+            <AdminRoute>
+              <AdminProyectos />
             </AdminRoute>
           }
         />

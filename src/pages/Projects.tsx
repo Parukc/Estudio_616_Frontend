@@ -58,11 +58,6 @@ const Projects = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <img
-                src="/assets/hero-image.jpg"
-                alt="Portafolio de arquitectura"
-                style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
-              />
             </Grid>
           </Grid>
         </Container>

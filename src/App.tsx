@@ -15,7 +15,8 @@ import PrivateRoute from './components/PrivateRoute';
 import UserDashboard from './pages/UserDashboard';
 import CreateAdmin from './pages/CreateAdmin';
 import AdminUsuarios from './pages/AdminUsuarios';
-import AdminProyectos from './pages/AdminProyectos'; // ✅ NUEVA importación
+import AdminProyectos from './pages/AdminProyectos';
+import EditarProyecto from './pages/EditarProyecto'; // ✅ IMPORTACIÓN NUEVA
 
 function App() {
   return (
@@ -96,6 +97,14 @@ function App() {
           element={
             <AdminRoute>
               <AdminProyectos />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/editar-proyecto/:id"
+          element={
+            <AdminRoute>
+              <EditarProyecto />
             </AdminRoute>
           }
         />

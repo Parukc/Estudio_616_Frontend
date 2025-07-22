@@ -51,7 +51,7 @@ const Projects = () => {
                 <Button
                   variant="contained"
                   color="success"
-                  onClick={() => navigate('/contacto')}
+                  onClick={() => navigate('/contact')}
                 >
                   Contacto
                 </Button>
@@ -148,7 +148,7 @@ const Projects = () => {
               <Button
                 variant="contained"
                 color="success"
-                onClick={() => navigate('/contacto')}
+                onClick={() => navigate('/contact')}
               >
                 Contacta a un Agente
               </Button>

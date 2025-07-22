@@ -48,8 +48,13 @@ const Projects = () => {
                 Explora nuestros proyectos de arquitectura más destacados.
               </Typography>
               <Box sx={{ mt: 2 }}>
-                <Button variant="outlined" sx={{ mr: 2 }}>Sobre Nosotros</Button>
-                <Button variant="contained" color="success">Contacto</Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => navigate('/contacto')}
+                >
+                  Contacto
+                </Button>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -145,8 +150,13 @@ const Projects = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={4} textAlign="right">
-              <Button variant="outlined" sx={{ mr: 2 }}>Ver FAQ</Button>
-              <Button variant="contained" color="success">Contacta a un Agente</Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => navigate('/contacto')}
+              >
+                Contacta a un Agente
+              </Button>
             </Grid>
           </Grid>
         </Container>

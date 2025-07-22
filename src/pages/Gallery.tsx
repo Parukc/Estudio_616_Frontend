@@ -20,47 +20,51 @@ const Gallery = () => {
         if (Array.isArray(data)) {
           setImages(data);
         } else if (Array.isArray(data.data)) {
-          // En caso de que la API devuelva { data: [...] }
           setImages(data.data);
         } else {
-          console.error('La respuesta de la galería no es un arreglo válido:', data);
+          console.error('Respuesta inválida:', data);
           setImages([]);
         }
       })
       .catch((err) => {
-        console.error('Error al cargar la galería:', err);
+        console.error('Error al cargar galería:', err);
         setImages([]);
       });
   }, []);
 
   return (
-    <Box sx={{ mt: 4, px: 2 }}>
-      <Typography variant="h4" align="center" gutterBottom>
+    <Box sx={{ bgcolor: '#fdfdfd', minHeight: '100vh', py: 4, px: 2 }}>
+      <Typography variant="h4" align="center" gutterBottom sx={{ color: 'black' }}>
         Galería
       </Typography>
 
       <Grid container spacing={2} justifyContent="center">
-        {Array.isArray(images) &&
+        {images.length > 0 ? (
           images.map((img) => (
             <Grid item key={img._id} xs={12} sm={6} md={4} lg={3}>
               <Box
                 component="img"
                 src={img.url}
-                alt="Imagen de galería"
+                alt="Imagen"
                 sx={{
                   width: '100%',
                   height: 'auto',
                   borderRadius: 2,
-                  boxShadow: 3,
-                  transition: 'transform 0.3s ease',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  boxShadow: 1,
                   '&:hover': {
                     transform: 'scale(1.05)',
-                    boxShadow: '0 8px 20px rgba(0,255,130,0.5)',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
                   },
                 }}
               />
             </Grid>
-          ))}
+          ))
+        ) : (
+          <Typography variant="body1" align="center" sx={{ mt: 4, color: 'gray' }}>
+            No hay imágenes aún en la galería.
+          </Typography>
+        )}
       </Grid>
     </Box>
   );

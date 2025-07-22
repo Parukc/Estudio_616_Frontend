@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -23,8 +22,9 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
+      // ✅ Corregido: usar "username" en vez de "email" como espera el backend
       const response = await API.post('/auth/login', {
-        email: form.email,
+        username: form.email,
         password: form.password,
       });
 

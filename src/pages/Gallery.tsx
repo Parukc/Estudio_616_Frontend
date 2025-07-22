@@ -17,54 +17,41 @@ const Gallery = () => {
       .get(`${import.meta.env.VITE_API_URL}/gallery`)
       .then((res) => {
         const data = res.data;
-        if (Array.isArray(data)) {
-          setImages(data);
-        } else if (Array.isArray(data.data)) {
-          setImages(data.data);
-        } else {
-          console.error('Respuesta inválida:', data);
-          setImages([]);
-        }
+        setImages(Array.isArray(data) ? data : data.data || []);
       })
       .catch((err) => {
-        console.error('Error al cargar galería:', err);
+        console.error('Error al cargar la galería:', err);
         setImages([]);
       });
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#fdfdfd', minHeight: '100vh', py: 4, px: 2 }}>
-      <Typography variant="h4" align="center" gutterBottom sx={{ color: 'black' }}>
+    <Box sx={{ bgcolor: '#fff', minHeight: '100vh', px: 2, py: 5 }}>
+      <Typography variant="h4" align="center" gutterBottom sx={{ color: '#000' }}>
         Galería
       </Typography>
 
       <Grid container spacing={2} justifyContent="center">
-        {images.length > 0 ? (
-          images.map((img) => (
-            <Grid item key={img._id} xs={12} sm={6} md={4} lg={3}>
-              <Box
-                component="img"
-                src={img.url}
-                alt="Imagen"
-                sx={{
-                  width: '100%',
-                  height: 'auto',
-                  borderRadius: 2,
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  boxShadow: 1,
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-              />
-            </Grid>
-          ))
-        ) : (
-          <Typography variant="body1" align="center" sx={{ mt: 4, color: 'gray' }}>
-            No hay imágenes aún en la galería.
-          </Typography>
-        )}
+        {images.map((img) => (
+          <Grid item key={img._id} xs={12} sm={6} md={4} lg={3}>
+            <Box
+              component="img"
+              src={img.url}
+              alt="Imagen de galería"
+              sx={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: 2,
+                boxShadow: 3,
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+                },
+              }}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

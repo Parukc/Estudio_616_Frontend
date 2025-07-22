@@ -1,5 +1,3 @@
-// src/pages/Projects.tsx
-
 import React, { useEffect, useState } from 'react';
 import {
   Box,
@@ -13,7 +11,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import API from '../api'; // 👈 Asegúrate de importar tu archivo API.ts
+import API from '../api';
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -87,8 +85,15 @@ const Projects = () => {
                   />
                 )}
                 <CardContent>
-                  <Typography variant="subtitle1">{project.title}</Typography>
-                  <Typography variant="body2">{project.category} | {project.date}</Typography>
+                  <Typography variant="h6" gutterBottom>
+                    {project.title}
+                  </Typography>
+                  <Typography variant="body2">
+                    {project.category}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {project.date}
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -115,6 +120,37 @@ const Projects = () => {
           </Grid>
         </Grid>
       </Container>
+
+      {/* ATENCIÓN AL CLIENTE */}
+      <Box sx={{ bgcolor: '#0f2d25', color: 'white', py: 6 }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} sm={8}>
+              <Typography variant="h6">Equipo de Atención al Cliente</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  bgcolor: '#2e7d32',
+                  px: 1,
+                  py: 0.5,
+                  borderRadius: 1,
+                  display: 'inline-block',
+                  mt: 1
+                }}
+              >
+                Listo para Ayudarte
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 2 }}>
+                Nuestro equipo está disponible para responder a todas tus preguntas.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={4} textAlign="right">
+              <Button variant="outlined" sx={{ mr: 2 }}>Ver FAQ</Button>
+              <Button variant="contained" color="success">Contacta a un Agente</Button>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
     </Box>
   );
 };

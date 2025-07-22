@@ -12,8 +12,6 @@ const RegisterPage = () => {
     telefono: '',
     username: '',
     address: '',
-    role: 'admin',         // 👈 se registra como admin
-    claveAdmin: '',        // 👈 clave para validar admin
   });
 
   const handleChange = (
@@ -26,9 +24,9 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
-        ...form
+        ...form,
       });
-      alert('Administrador registrado correctamente');
+      alert('Usuario registrado correctamente');
       navigate('/login');
     } catch (error) {
       alert('Error al registrar usuario');
@@ -47,7 +45,7 @@ const RegisterPage = () => {
         background: 'white',
         color: '#0c0c0c'
       }}>
-        <h1 style={{ fontWeight: 'bold' }}>REGÍSTRATE COMO ADMINISTRADOR</h1>
+        <h1 style={{ fontWeight: 'bold' }}>REGÍSTRATE COMO USUARIO</h1>
         <p>Si ya cuentas con usuario y contraseña - inicia sesión</p>
         <button
           onClick={() => navigate('/login')}
@@ -75,7 +73,7 @@ const RegisterPage = () => {
               <input
                 type="email"
                 name="email"
-                placeholder="admin@admin.com"
+                placeholder="correo@ejemplo.com"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -127,7 +125,7 @@ const RegisterPage = () => {
               <input
                 type="text"
                 name="username"
-                placeholder="admin616"
+                placeholder="usuario123"
                 value={form.username}
                 onChange={handleChange}
                 required
@@ -140,21 +138,8 @@ const RegisterPage = () => {
               <input
                 type="text"
                 name="address"
-                placeholder="Av. 10 de Agosto y Colón"
+                placeholder="Av. Siempre Viva 742"
                 value={form.address}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}
-              />
-            </div>
-
-            <div>
-              <label>Clave de Administrador</label>
-              <input
-                type="password"
-                name="claveAdmin"
-                placeholder="admin123"
-                value={form.claveAdmin}
                 onChange={handleChange}
                 required
                 style={{ width: '100%', padding: '0.5rem', borderRadius: '5px', border: 'none' }}

@@ -1,6 +1,6 @@
 // src/pages/Projects.tsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,21 +8,36 @@ import {
   Grid,
   Card,
   CardContent,
+  CardMedia,
   Container
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import API from '../api'; // 👈 Asegúrate de importar tu archivo API.ts
 
 const Projects = () => {
   const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await API.get('/projects');
+        setProjects(res.data);
+      } catch (error) {
+        console.error('Error al obtener proyectos:', error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const handleAddProject = () => {
-  navigate('/crear-proyecto'); // ✅ debe apuntar exactamente a esta ruta
-};
+    navigate('/crear-proyecto');
+  };
 
   return (
     <Box sx={{ bgcolor: '#fefefe', color: 'black' }}>
-      
       {/* HERO INICIAL */}
       <Box sx={{ bgcolor: '#c6dad4', py: 8 }}>
         <Container maxWidth="lg">
@@ -41,7 +56,7 @@ const Projects = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <img
-                src="/assets/hero-image.jpg" // Usa una imagen de tu carpeta /public/assets/
+                src="/assets/hero-image.jpg"
                 alt="Portafolio de arquitectura"
                 style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
               />
@@ -50,7 +65,7 @@ const Projects = () => {
         </Container>
       </Box>
 
-      {/* PROYECTOS DESTACADOS */}
+      {/* PROYECTOS */}
       <Container sx={{ py: 6 }}>
         <Typography variant="h5" gutterBottom>
           Proyectos Destacados
@@ -58,24 +73,22 @@ const Projects = () => {
         <Typography variant="body1" gutterBottom>
           Descubre nuestros proyectos más innovadores.
         </Typography>
+
         <Grid container spacing={4} sx={{ mt: 2 }}>
-          {/* Simulando proyectos existentes */}
-          {[1, 2, 3].map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item}>
+          {projects.map((project: any) => (
+            <Grid item xs={12} sm={6} md={4} key={project.id}>
               <Card>
-                <Box
-                  sx={{
-                    height: 200,
-                    bgcolor: 'grey.200',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  Proyecto {item}
-                </Box>
+                {project.image && (
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={project.image}
+                    alt={project.title}
+                  />
+                )}
                 <CardContent>
-                  <Typography variant="subtitle1">Proyecto {item}</Typography>
+                  <Typography variant="subtitle1">{project.title}</Typography>
+                  <Typography variant="body2">{project.category} | {project.date}</Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -102,62 +115,6 @@ const Projects = () => {
           </Grid>
         </Grid>
       </Container>
-
-      {/* PROYECTO ANCHO COMPLETO */}
-      <Container sx={{ py: 4 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Card>
-              <Box
-                sx={{
-                  height: 300,
-                  bgcolor: 'grey.200',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                Proyecto 4
-              </Box>
-              <CardContent>
-                <Typography variant="subtitle1">Proyecto 4</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-
-      {/* SECCIÓN DE ATENCIÓN AL CLIENTE */}
-      <Box sx={{ bgcolor: '#0f2d25', color: 'white', py: 6 }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} sm={8}>
-              <Typography variant="h6">Equipo de Atención al Cliente</Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  bgcolor: '#2e7d32',
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 1,
-                  display: 'inline-block',
-                  mt: 1
-                }}
-              >
-                Listo para Ayudarte
-              </Typography>
-              <Typography variant="body2" sx={{ mt: 2 }}>
-                Nuestro equipo está disponible para responder a todas tus preguntas.
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4} textAlign="right">
-              <Button variant="outlined" sx={{ mr: 2 }}>Ver FAQ</Button>
-              <Button variant="contained" color="success">Contacta a un Agente</Button>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-
     </Box>
   );
 };
